@@ -1,0 +1,28 @@
+.cell{
+	display: inline-block;
+	border: 1px solid black;
+	text-align: center;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	font-family: Lucida Console, monospace;
+}
+
+.cell-state-0, .cell-state-2{
+	background-color: #eee;
+}
+
+.map{
+	display:inline-grid;
+	grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+	width: auto;
+	border:1px solid black;
+}
+
+.main{
+	text-align: center;
+}
+
+.game-stats{
+	font-size:30px;
+}
