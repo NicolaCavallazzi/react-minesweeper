@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faMinusSquare from '@fortawesome/fontawesome-free-solid/faMinusSquare';
+import faPlusSquare from '@fortawesome/fontawesome-free-solid/faPlusSquare';
 
 class Dimension extends Component {
 	
@@ -19,9 +22,9 @@ class Dimension extends Component {
 	render() {
 		return (
 			<div>
-				<button onClick={this.handleClickUp}>UP</button>
-				<div>{this.props.currVal}</div>
-				<button onClick={this.handleClickDown}>DOWN</button>
+				<FontAwesomeIcon onClick={this.handleClickDown} icon={faMinusSquare} className="dim-but" />
+				<span className="dim-txt" >{this.props.currVal}</span>
+				<FontAwesomeIcon onClick={this.handleClickUp} icon={faPlusSquare} className="dim-but" />
 			</div>
 		);
 	}

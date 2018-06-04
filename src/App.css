@@ -2,10 +2,14 @@
 	display: inline-block;
 	border: 1px solid black;
 	text-align: center;
-	width: 30px;
-	height: 30px;
-	line-height: 30px;
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
 	font-family: Lucida Console, monospace;
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
 }
 
 .cell-state-0, .cell-state-2{
@@ -14,9 +18,16 @@
 
 .map{
 	display:inline-grid;
-	grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
 	width: auto;
 	border:1px solid black;
+}
+
+.menu{
+	display: inline-grid;
+	grid-template-columns: 150px 150px 150px auto;
+	width: 600px;
+	margin-top:20px;
+	margin-bottom: 40px;
 }
 
 .main{
@@ -25,4 +36,27 @@
 
 .game-stats{
 	font-size:30px;
+}
+
+.dim-but{
+	cursor: pointer;
+	color: #000;
+}
+.dim-but:hover{
+	color: #000;
+}
+.res-but{
+	cursor: pointer;
+	font-size: 2em;
+}
+
+.dim-txt{
+	font-family: Lucida Console, monospace;
+	width: 50px;
+	display: inline-block;
+	text-align: center;
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
 }

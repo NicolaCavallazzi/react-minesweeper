@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-import Cell from './Cell'
-import Dimension from './Dimension'
-import GameStats from './GameStats'
+import Cell from './Cell';
+import Dimension from './Dimension';
+import GameStats from './GameStats';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faSync from '@fortawesome/fontawesome-free-solid/faSync';
+import faBomb from '@fortawesome/fontawesome-free-solid/faBomb'
+import faArrowsV from '@fortawesome/fontawesome-free-solid/faArrowsAltV'
+import faArrowsH from '@fortawesome/fontawesome-free-solid/faArrowsAltH'
 
 const dirs = [[0,1], [1,0], [1,1], [-1,1], [0,-1], [-1,0], [-1,-1], [1,-1]];
 
@@ -12,11 +17,11 @@ class App extends Component {
 		
 		this.state = {
 			gameState: 0,
-			width: 10,
-			height: 10,
-			nBombs: 10,
+			width: 16,
+			height: 16,
+			nBombs: 40,
 			mat: [],
-			cssGrid: "auto auto auto auto auto auto auto auto auto auto"
+			cssGrid: ""
 		}
 		
 		this.aCellWasClicked = this.aCellWasClicked.bind(this);
@@ -33,29 +38,44 @@ class App extends Component {
 	
 	resetGame() {
 		var res = [];
+		var newGrid = [];
 		for(var i=0; i < this.state.height; i++) {
 			for(var j=0; j < this.state.width; j++) {
 				res.push({y: i, x: j, value: 0, stat: 0});
 			}
 		}
-		// eslint-disable-next-line
-		this.setState({mat: res, gameState: 0});
+		for(i = 0; i < this.state.width; i++){
+			newGrid.push("auto");
+		}		
+		this.setState({mat: res, gameState: 0, cssGrid: newGrid.join(" ")});
 	}
 	
 	placeBombs() {
+		var bombs = this.state.nBombs;
+		const cells = this.state.width*this.state.height;
+		const manyBombs = (bombs > cells/2);
+		if(manyBombs)
+			bombs = cells - bombs;
+		
 		var res = [];
 		for(var i=0; i < this.state.height; i++) {
 			for(var j=0; j < this.state.width; j++) {
-				res.push({y: i, x: j, value: 0, stat: 0});
+				if(manyBombs)
+					res.push({y: i, x: j, value: "B", stat: 0});
+				else
+					res.push({y: i, x: j, value: 0, stat: 0});
 			}
 		}
-		var bombs = this.state.nBombs;
+
 		while(bombs > 0) {
 			var done = false;
 			while(!done) {
 				var rand = Math.round(Math.random()*(this.state.width*this.state.height-1));
-				if(res[rand].value === 0) {
+				if(!manyBombs && res[rand].value === 0) {
 					res[rand].value = "B";
+					done = true;
+				}else if(manyBombs && res[rand].value === "B"){
+					res[rand].value = 0;
 					done = true;
 				}
 			}
@@ -182,22 +202,18 @@ class App extends Component {
 	}
 	
 	changeWidth(value){
-		if(value < 5)
-			value = 5;
-		var newGrid = [];
+		if(value < 3)
+			value = 3;
 		var bombs = this.state.nBombs;
-		for(var i = 0; i < value; i++){
-			newGrid.push("auto");
-		}
 		if(this.state.width*this.state.height-1 < bombs)
 			bombs = this.state.width*this.state.height-1;
 		if(bombs < 0)
 			bombs = 0;
-		this.setState({width: value, cssGrid: newGrid.join(" "), nBombs: bombs});
+		this.setState({width: value, nBombs: bombs});
 	}
 	changeHeight(value){
-		if(value < 5)
-			value = 5;
+		if(value < 3)
+			value = 3;
 		var bombs = this.state.nBombs;
 		if(this.state.width*this.state.height-1 < bombs)
 			bombs = this.state.width*this.state.height-1;
@@ -225,6 +241,23 @@ class App extends Component {
 		var bb = this.state.mat;
 		return (
 			<div className="main">
+				<div className="menu">
+					<div>
+						<FontAwesomeIcon icon={faArrowsH} />
+						<Dimension onClick={this.changeWidth} currVal={this.state.width} />
+					</div>
+					<div>
+						<FontAwesomeIcon icon={faArrowsV} />
+						<Dimension onClick={this.changeHeight} currVal={this.state.height} />
+					</div>
+					<div>
+						<FontAwesomeIcon icon={faBomb} />
+						<Dimension onClick={this.changeBombs} currVal={this.state.nBombs} />
+					</div>
+					<div>
+						<FontAwesomeIcon onClick={this.resetGame} icon={faSync} className="res-but" />
+					</div>
+				</div>
 				<GameStats gameState={this.state.gameState} />
 				<br />
 				<div className="map" style={{gridTemplateColumns: this.state.cssGrid}}>
@@ -236,14 +269,6 @@ class App extends Component {
 						)
 					}
 				</div>
-				<br />
-				<button onClick={this.resetGame} >RESET</button>
-				<hr />
-				<Dimension onClick={this.changeWidth} currVal={this.state.width} />
-				<hr />
-				<Dimension onClick={this.changeHeight} currVal={this.state.height} />
-				<hr />
-				<Dimension onClick={this.changeBombs} currVal={this.state.nBombs} />
 			</div>
 		)
   }
