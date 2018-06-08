@@ -47,7 +47,7 @@ class App extends Component {
 		for(i = 0; i < this.state.width; i++){
 			newGrid.push("auto");
 		}		
-		this.setState({mat: res, gameState: 0, cssGrid: newGrid.join(" ")});
+		this.setState({mat: res, gameState: 0, cssGrid: newGrid.join(" "), placedFlags: 0});
 	}
 	
 	placeBombs() {
