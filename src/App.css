@@ -44,6 +44,8 @@ body{
 	background-color: #666;
 	border-bottom:2px solid black;
 	margin-bottom: 20px;
+	position: relative;
+	width: 100%;
 }
 
 .main{
