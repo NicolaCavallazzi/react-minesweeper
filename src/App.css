@@ -1,3 +1,11 @@
+body{
+	font-family: Lucida Console, monospace;
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
+}
+
 .cell{
 	display: inline-block;
 	border: 1px solid black;
@@ -6,6 +14,7 @@
 	height: 25px;
 	line-height: 25px;
 	font-family: Lucida Console, monospace;
+	position: relative;
 	-webkit-user-select: none; /* Safari */        
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+/Edge */
@@ -13,21 +22,28 @@
 }
 
 .cell-state-0, .cell-state-2{
-	background-color: #eee;
+	background-color: #dedede;
 }
 
 .map{
 	display:inline-grid;
 	width: auto;
 	border:1px solid black;
+	margin-bottom: 50px;
 }
 
 .menu{
 	display: inline-grid;
-	grid-template-columns: 150px 150px 150px auto;
-	width: 600px;
+	grid-template-columns: 150px 150px 150px;
+	width: 450;
 	margin-top:20px;
 	margin-bottom: 40px;
+	color:#fff;
+}
+.menu-container{
+	background-color: #666;
+	border-bottom:2px solid black;
+	margin-bottom: 20px;
 }
 
 .main{
@@ -37,14 +53,14 @@
 .game-stats{
 	font-size:30px;
 }
+.game-stats > *{
+	cursor:pointer;
+}
 
 .dim-but{
 	cursor: pointer;
-	color: #000;
 }
-.dim-but:hover{
-	color: #000;
-}
+
 .res-but{
 	cursor: pointer;
 	font-size: 2em;
@@ -59,4 +75,24 @@
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+/Edge */
 	user-select: none; /* Standard */
+}
+
+.dim-icon{
+	margin-bottom: 5px;
+}
+
+.wrong-flag-x{
+	color: #dedede;
+	position: absolute;
+	z-index:1;
+	left: 8px;
+	top:-1px;
+	font-size: 20px;
+}
+
+.game-stats-container{
+	display: inline-grid;
+	grid-template-columns: 110px 230px 110px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }

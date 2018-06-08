@@ -4,7 +4,6 @@ import Cell from './Cell';
 import Dimension from './Dimension';
 import GameStats from './GameStats';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import faSync from '@fortawesome/fontawesome-free-solid/faSync';
 import faBomb from '@fortawesome/fontawesome-free-solid/faBomb'
 import faArrowsV from '@fortawesome/fontawesome-free-solid/faArrowsAltV'
 import faArrowsH from '@fortawesome/fontawesome-free-solid/faArrowsAltH'
@@ -19,9 +18,10 @@ class App extends Component {
 			gameState: 0,
 			width: 16,
 			height: 16,
-			nBombs: 40,
+			nBombs: 30,
 			mat: [],
-			cssGrid: ""
+			cssGrid: "",
+			placedFlags: 0
 		}
 		
 		this.aCellWasClicked = this.aCellWasClicked.bind(this);
@@ -165,12 +165,20 @@ class App extends Component {
 	
 	checkVictory(){
 		if(this.state.gameState === 1){
+			var placedFl = 0;
 			const mat = this.state.mat;
 			const win = mat.every(cell => {
 				return ((cell.value !== "B" && cell.stat === 1) || (cell.value === "B" && (cell.stat === 0 || cell.stat === 2)))
 			});
+			mat.map(cell => {
+				if(cell.stat === 2)
+					placedFl++;
+			});
 			if(win){
 				this.setState({gameState: 3});
+			}else{
+				if(this.state.placedFlags != placedFl)
+					this.setState({placedFlags: placedFl});
 			}
 		}
 	}
@@ -204,6 +212,8 @@ class App extends Component {
 	changeWidth(value){
 		if(value < 3)
 			value = 3;
+		if(value > 30)
+			value = 30;
 		var bombs = this.state.nBombs;
 		if(this.state.width*this.state.height-1 < bombs)
 			bombs = this.state.width*this.state.height-1;
@@ -214,6 +224,8 @@ class App extends Component {
 	changeHeight(value){
 		if(value < 3)
 			value = 3;
+		if(value > 30)
+			value = 30;
 		var bombs = this.state.nBombs;
 		if(this.state.width*this.state.height-1 < bombs)
 			bombs = this.state.width*this.state.height-1;
@@ -222,7 +234,7 @@ class App extends Component {
 		this.setState({height: value, nBombs: bombs});
 	}
 	changeBombs(value){
-		if(value <= this.state.width*this.state.height)
+		if(value <= this.state.width*this.state.height && value >= 0)
 			this.setState({nBombs: value});
 	}
 
@@ -241,24 +253,24 @@ class App extends Component {
 		var bb = this.state.mat;
 		return (
 			<div className="main">
-				<div className="menu">
-					<div>
-						<FontAwesomeIcon icon={faArrowsH} />
-						<Dimension onClick={this.changeWidth} currVal={this.state.width} />
-					</div>
-					<div>
-						<FontAwesomeIcon icon={faArrowsV} />
-						<Dimension onClick={this.changeHeight} currVal={this.state.height} />
-					</div>
-					<div>
-						<FontAwesomeIcon icon={faBomb} />
-						<Dimension onClick={this.changeBombs} currVal={this.state.nBombs} />
-					</div>
-					<div>
-						<FontAwesomeIcon onClick={this.resetGame} icon={faSync} className="res-but" />
+				<div className="menu-container">
+					<div className="menu">
+						<div>
+							<FontAwesomeIcon icon={faArrowsH} className="dim-icon" />
+							<Dimension onClick={this.changeWidth} currVal={this.state.width} />
+						</div>
+						<div>
+							<FontAwesomeIcon icon={faArrowsV} className="dim-icon" />
+							<Dimension onClick={this.changeHeight} currVal={this.state.height} />
+						</div>
+						<div>
+							<FontAwesomeIcon icon={faBomb} className="dim-icon" />
+							<Dimension onClick={this.changeBombs} currVal={this.state.nBombs} />
+						</div>
 					</div>
 				</div>
-				<GameStats gameState={this.state.gameState} />
+				<br />
+				<GameStats gameState={this.state.gameState} gameTime={10} nBombs={this.state.nBombs} placedFlags={this.state.placedFlags} onClick={this.resetGame} />
 				<br />
 				<div className="map" style={{gridTemplateColumns: this.state.cssGrid}}>
 					{
