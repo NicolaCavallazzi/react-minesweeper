@@ -42,8 +42,8 @@ class GameStats extends Component {
 		const s = this.props.gameState;
 		if(s === 0){ // Game to be started
 			icon = <FontAwesomeIcon icon={faMeh} onClick={this.props.onClick} />;
-			flags = "";
-			time="";
+			flags = "&nbsp;";
+			time="&nbsp;";
 		}
 		else if(s === 1) // Game going
 			icon = <FontAwesomeIcon icon={faSmile} onClick={this.props.onClick} />;
