@@ -15,8 +15,9 @@ class GameStats extends Component {
    }
 
 	tick(){
-		if(this.props.gameState !== 1)
+		if(this.props.gameState !== 1){
 			clearInterval(this.timer);
+		}
 		else
 			this.setState({elapsed: new Date() - this.state.start});
 	}
@@ -37,14 +38,14 @@ class GameStats extends Component {
 	
 	render() {
 		var icon, flags, time;
-		flags = <span>{this.props.placedFlags+"/"+this.props.nBombs} <FontAwesomeIcon icon={faFlag} /></span>;
-		time = <span><FontAwesomeIcon icon={faClock} /> {Math.floor(this.state.elapsed/1000)}</span>;
 		const s = this.props.gameState;
-		if(s === 0){ // Game to be started
+		var t = 0;
+		flags = <span>{this.props.placedFlags+"/"+this.props.nBombs} <FontAwesomeIcon icon={faFlag} /></span>;
+		if(s > 0)
+			t = Math.floor(this.state.elapsed/1000);
+		time = <span><FontAwesomeIcon icon={faClock} /> {t}</span>;
+		if(s === 0) // Game to be started
 			icon = <FontAwesomeIcon icon={faMeh} onClick={this.props.onClick} />;
-			flags = "&nbsp;";
-			time="&nbsp;";
-		}
 		else if(s === 1) // Game going
 			icon = <FontAwesomeIcon icon={faSmile} onClick={this.props.onClick} />;
 		else if(s === 2) // You loose
