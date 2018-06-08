@@ -173,11 +173,12 @@ class App extends Component {
 			mat.map(cell => {
 				if(cell.stat === 2)
 					placedFl++;
+				return null;
 			});
 			if(win){
 				this.setState({gameState: 3});
 			}else{
-				if(this.state.placedFlags != placedFl)
+				if(this.state.placedFlags !== placedFl)
 					this.setState({placedFlags: placedFl});
 			}
 		}
