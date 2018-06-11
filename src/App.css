@@ -15,10 +15,6 @@ body{
 	line-height: 25px;
 	font-family: Lucida Console, monospace;
 	position: relative;
-	-webkit-user-select: none; /* Safari */        
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE10+/Edge */
-	user-select: none; /* Standard */
 }
 
 .cell-state-0, .cell-state-2{
@@ -97,4 +93,27 @@ body{
 	grid-template-columns: 110px 230px 110px;
 	margin-top: 20px;
 	margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+	.cell{
+		width: 18px;
+		height: 18px;
+		line-height: 18px;
+		font-size: 0.8em;
+	}
+	.menu{
+		display: inline-grid;
+		grid-template-columns: 100px 100px 100px;
+		width: 300;
+	}
+	.dim-txt{
+		width: 30px;
+	}
+	.game-stats-container{
+		display: inline-grid;
+		grid-template-columns: 90px 120px 90px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
 }
