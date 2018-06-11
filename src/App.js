@@ -21,7 +21,9 @@ class App extends Component {
 			nBombs: 30,
 			mat: [],
 			cssGrid: "",
-			placedFlags: 0
+			placedFlags: 0,
+			winWidth: 0,
+			winHeight: 0
 		}
 		
 		this.aCellWasClicked = this.aCellWasClicked.bind(this);
@@ -34,6 +36,7 @@ class App extends Component {
 		this.changeWidth = this.changeWidth.bind(this);
 		this.changeHeight = this.changeHeight.bind(this);
 		this.changeBombs = this.changeBombs.bind(this);
+		this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 	}
 	
 	resetGame() {
@@ -211,10 +214,12 @@ class App extends Component {
 	}
 	
 	changeWidth(value){
+		var cellWidth = document.getElementsByClassName('cell')[0].offsetWidth;
+		var maxW = Math.floor((this.state.winWidth-2) / cellWidth) - 1;
 		if(value < 3)
 			value = 3;
-		if(value > 30)
-			value = 30;
+		if(value > maxW)
+			value = maxW;
 		var bombs = this.state.nBombs;
 		if(this.state.width*this.state.height-1 < bombs)
 			bombs = this.state.width*this.state.height-1;
@@ -240,8 +245,19 @@ class App extends Component {
 	}
 
 	componentDidMount() {
+		this.updateWindowDimensions();
+		window.addEventListener('resize', this.updateWindowDimensions);
     this.resetGame();
   }
+	
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.updateWindowDimensions);
+	}
+	
+	updateWindowDimensions() {
+		this.setState({ winWidth: window.innerWidth, winHeight: window.innerHeight });
+	}
+
 	
 	componentDidUpdate(prevProps, prevState) {
     if(prevState.width !== this.state.width || prevState.height !== this.state.height || prevState.nBombs !== this.state.nBombs){
